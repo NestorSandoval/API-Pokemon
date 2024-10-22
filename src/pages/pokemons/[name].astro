@@ -42,8 +42,8 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 
     <PokemonCard name={name} url={url} isBig />
 
-    <audio controls class="mt-5">
-      <source src={audioSrc} type="audio/ogg" />
+    <audio controls class="mt-5" preload="auto">
+      <source src={audioSrc} type="audio/ogg"/>
       Your browser does not support the audio element.
     </audio>
   </section>
