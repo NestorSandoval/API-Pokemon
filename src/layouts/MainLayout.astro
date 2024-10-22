@@ -1,7 +1,7 @@
 ---
+import NavBar from '@components/shared/NavBar.astro';
 import { ViewTransitions } from 'astro:transitions';
 import { siteInfo } from 'src/consts/site-info';
-import NavBar from '@components/shared/NavBar.astro';
 
 interface Props {
   title?: string;
@@ -36,12 +36,16 @@ const {
     <title>{title}</title>
 
     <ViewTransitions />
+    <!-- <style>
+      @view-transition {
+        navigation: auto; /* enabled! */
+      } -->
   </head>
 
   <body class="bg-slate-800 text-slate-100 flex flex-col min-h-screen">
-      <NavBar/>
-      <main class="mt-10 mx-auto flex-grow w-full max-w-4xl px-4">
-        <slot />
-      </main>
+    <NavBar />
+    <main class="mt-10 mx-auto flex-grow w-full max-w-4xl px-4">
+      <slot />
+    </main>
   </body>
 </html>
