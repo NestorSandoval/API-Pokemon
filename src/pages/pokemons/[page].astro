@@ -27,10 +27,10 @@ const { page } = Astro.props;
     {page.data.map(({ name, url }) => <PokemonCard name={name} url={url} />)}
   </section>
 
-  <section class="flex mt-10 gap-2 items-center">
+  <section class="flex py-5 gap-2 items-center">
     <a
       class:list={[
-        'btn',
+        'btn2',
         {
           disabled: !page.url.prev,
         },
@@ -58,7 +58,11 @@ const { page } = Astro.props;
 
 <style>
   .btn {
-    @apply bg-blue-500 p-2 text-white rounded-md;
+    @apply bg-yellow-500 p-2 text-white rounded-md;
+  }
+
+  .btn2 {
+    @apply bg-red-500 p-2 text-white rounded-md;
   }
 
   .disabled {
