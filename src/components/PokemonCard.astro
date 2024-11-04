@@ -23,7 +23,7 @@ const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
 <a
   href={`/pokemons/${name}`}
-  class:list={[`grid justify-items-center items-center rounded-xl mt-2 text-2xl ${randomColor}`]}
+  class:list={[`grid justify-items-center items-center rounded-xl mt-4 py-4 text-xl ${randomColor}`]}
 >
   <img
     transition:name={`${name}-image`}
@@ -44,6 +44,8 @@ const randomColor = colors[Math.floor(Math.random() * colors.length)];
       },
     ]}
   >
+  <div>
     #{id} {name}
+  </div>
   </span>
 </a>
