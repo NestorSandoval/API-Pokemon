@@ -32,17 +32,12 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
 
-    <!-- Required -->
     <title>{title}</title>
 
     <ViewTransitions />
-    <!-- <style>
-      @view-transition {
-        navigation: auto; /* enabled! */
-      } -->
   </head>
 
-  <body class="bg-slate-200 text-slate-100 grid grid-col-2 min-h-screen">
+  <body class="bg-slate-200 text-slate-100 grid grid-col-2 ">
     <NavBar />
     <main class="mt-10 mx-auto flex-grow w-full max-w-4xl px-4">
       <slot />
