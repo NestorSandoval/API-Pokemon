@@ -6,6 +6,8 @@ import PokemonCard from '../../components/PokemonCard.astro';
 import MainLayout from '@layouts/MainLayout.astro';
 import Title from '@components/shared/Title.astro';
 
+import { Icon } from 'astro-icon/components'
+
 export const getStaticPaths = (async () => {
   const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
   const { results } = (await resp.json()) as PokemonListResponse;
@@ -30,15 +32,21 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
   description={`Información sobre el pokémon ${name}`}
   image={imageSrc}
 >
-  <section class="mt-2 mx-10 flex flex-col justify-center items-center">
-      <div> 
-        <div class="flex justify-center items-center">
+  <section class="mt-10 mx-10 flex flex-col justify-center items-center">
+      <div class="flex flex-row"> 
+        <div>
           <button class="bg-red-500 hover:bg-yellow-500 px-4 py-1 rounded-md" onclick="history.back()">
-            <span class="text-white font-semibold">Regresar</span>
-          </button>
+              <span class="text-white font-semibold">Regresar</span>
+            </button>
+            <Title>{name}</Title>
         </div>
-          <Title>{name}</Title>
-      </div> 
+
+          <button id="btn-favorite" class="ml-4" data-name={name} data-id={id}>
+            <Icon data-outline name='heart-outline' size={50}/>
+            <Icon data-full class='hidden' name='heart-full' size={50}/>
+          </button>
+
+      </div>
       
     <PokemonCard name={name} url={url} isBig />
 
@@ -49,8 +57,96 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
   </section>
 </MainLayout>
 
+
+<script>
+
+  interface FavoritePokemon{
+    name: string,
+    id: number
+  }
+
+  // document.addEventListener('astro:before-preparation' , () => {
+  //   console.log('astro:before-preparation')
+
+  // })
+
+  // document.addEventListener('astro:after-preparation', () =>{
+  //   console.log('astro:after-preparation')
+  // })
+
+  // document.addEventListener("astro:after-swap", () => {
+  //   console.log("astro:after-swap")
+  // })
+
+  // document.addEventListener("astro:before-swap", () => {
+  //   console.log("astro:before-swap")
+  // })
+
+  // document.addEventListener('astro:page-load', () => {
+  //   console.log('hola')
+  // }, {once: true})
+
+
+  const handleLoadPage = () => {
+
+    let favoritePokemons: FavoritePokemon[] = JSON.parse(
+      localStorage.getItem('favorites') ?? '[]'
+    )
+
+    const btnFavorite = document.querySelector('#btn-favorite') as HTMLButtonElement
+  
+    if (!btnFavorite) return
+  
+    // Referencias
+    const name = btnFavorite.dataset.name ?? '';
+    const id = btnFavorite.dataset.id ?? '';
+
+    const heartOutline = btnFavorite.querySelector('[data-outline]') as HTMLElement
+    const heartfull = btnFavorite.querySelector('[data-full]') as HTMLElement
+
+
+    const toggleFavorite = () => {
+      const isFavorite = favoritePokemons.some((fav) => fav.name === name)
+
+      if(isFavorite){
+        //remover el pokemon
+        favoritePokemons = favoritePokemons.filter((fav) => fav.name === name)
+      }else{
+        //agregar
+        favoritePokemons.push(
+        {
+          id: +id,
+          name: name,
+        }
+    )}
+    localStorage.setItem('favorites', JSON.stringify(favoritePokemons))
+  }
+
+
+
+    btnFavorite.addEventListener('click', () => {
+      
+      heartOutline.classList.toggle('hidden')
+      heartfull.classList.toggle('hidden')
+
+      toggleFavorite()
+    })
+  }
+
+  document.addEventListener('astro:page-load', handleLoadPage)
+
+
+
+
+
+</script>
+
 <style>
   a {
     @apply hover:underline text-blue-500;
+  }
+
+  #btn-favorite {
+    @apply hover:animate-pulse
   }
 </style>
