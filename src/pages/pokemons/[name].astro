@@ -1,12 +1,13 @@
 ---
-import type { GetStaticPaths } from 'astro';
 import type { PokemonListResponse } from '@interfaces/pokemon-list';
+import type { GetStaticPaths } from 'astro';
 
-import PokemonCard from '../../components/PokemonCard.astro';
+import { Icon } from 'astro-icon/components'
+
+import PokemonCard from '../../components/pokemons/PokemonCard.astro';
 import MainLayout from '@layouts/MainLayout.astro';
 import Title from '@components/shared/Title.astro';
 
-import { Icon } from 'astro-icon/components'
 
 export const getStaticPaths = (async () => {
   const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
@@ -59,11 +60,13 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 
 
 <script>
+  import type { FavoritePokemon } from "@interfaces/favorite-pokemon";
+  
+  // interface FavoritePokemon{
+  //   name: string,
+  //   id: number
+  // }
 
-  interface FavoritePokemon{
-    name: string,
-    id: number
-  }
 
   // document.addEventListener('astro:before-preparation' , () => {
   //   console.log('astro:before-preparation')
@@ -100,10 +103,18 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
     // Referencias
     const name = btnFavorite.dataset.name ?? '';
     const id = btnFavorite.dataset.id ?? '';
+    const isFavorite = favoritePokemons.some((fav) => fav.name === name)
 
     const heartOutline = btnFavorite.querySelector('[data-outline]') as HTMLElement
     const heartfull = btnFavorite.querySelector('[data-full]') as HTMLElement
 
+
+    // Funcion para mostrar o ocultar el corazon lleno
+
+    if (isFavorite) {
+      heartOutline.classList.add('hidden')
+      heartfull.classList.remove('hidden')
+    }
 
     const toggleFavorite = () => {
       const isFavorite = favoritePokemons.some((fav) => fav.name === name)
@@ -121,8 +132,6 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
     )}
     localStorage.setItem('favorites', JSON.stringify(favoritePokemons))
   }
-
-
 
     btnFavorite.addEventListener('click', () => {
       

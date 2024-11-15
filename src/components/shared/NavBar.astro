@@ -1,40 +1,33 @@
 ---
+
 const links = [
   { href: '/', text: 'Listado' },
   { href: '/pokemons/1', text: 'Paginado' },
-  {href: '/favorites', text: 'favoritos'}
+  { href: '/favorites', text: 'Favoritos' },
+  { href: '/islands', text: 'Islas' }
 ];
 
 const currentPath = Astro.url.pathname;
-const isPagination = currentPath.startsWith("/pokemons/")
+const isPokemonPaginationPage = currentPath === '/pokemons/1'; 
 ---
 
 <nav class="shadow bg-red-600">
-  <div
-    class="container flex items-center justify-center p-6 mx-auto text-gray-600 capitalize dark:text-gray-300"
-  >
-
-    {
-      links.map(({ href, text }) => (
+  <div class="container flex items-center justify-center p-6 mx-auto text-gray-600 capitalize dark:text-gray-300">
+    {links.map(({ href, text }) => {
+      const isActive = (currentPath === href || (text === 'Paginado' && isPokemonPaginationPage));
+      return (
         <div class="relative">
           <a
             href={href}
-            class="text-gray-800 dark:text-gray-200 mx-1.5 sm:mx-6"
+            class={`text-gray-800 dark:text-gray-200 mx-1.5 sm:mx-6 ${isActive ? 'font-semibold' : ''}`}
+            aria-current={isActive ? 'page' : undefined}
           >
             {text}
           </a>
 
-          {(currentPath === href || (text === "Paginado" && isPagination)) ? (
-            <div
-              transition:name="menu-line"
-              class="border-b-2 border-yellow-500 mx-4"
-            />
-          ) : (
-            <div class="border-b-2 border-transparent" />
-          )}
-        
+          <div class={`border-b-2 mx-4 ${isActive ? 'border-yellow-500' : 'border-transparent'}`} />
         </div>
-      ))
-    }
+      );
+    })}
   </div>
 </nav>
