@@ -1,7 +1,7 @@
 # POKE-API CON ASTRO 🚀
 
 ```sh
-pnpm clone git@github.com:NestorSandoval/Poke-API.git
+git clone git@github.com:NestorSandoval/Poke-API.git
 ```
 
 ## Vista previa de la página
