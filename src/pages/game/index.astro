@@ -1,0 +1,15 @@
+---
+import Title from "@components/shared/Title.astro";
+import MainLayout from "@layouts/MainLayout.astro";
+import PokemonGame from "@components/pokemons/game/PokemonGame.vue";
+---
+
+<MainLayout>
+    <Title>Juego</Title>
+    
+    <div>
+        <PokemonGame client:only="vue" />
+    </div>
+
+</MainLayout>
+
